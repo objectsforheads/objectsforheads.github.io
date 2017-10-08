@@ -68,12 +68,6 @@
 
 	$('document').ready(function() {
 		affixHeadings();
-
-		$('.has-tooltip').tooltipster({
-	    theme: 'tooltipster-noir',
-			delay: 0,
-			distance: 0
-		});
 	})
 
 	var onScroll = throttle(function() {
