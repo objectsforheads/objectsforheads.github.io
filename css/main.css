@@ -477,6 +477,12 @@ body {
   line-height: 1.5;
 }
 
+nav .nav-link, footer .nav-link {
+  display: block;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  background: none;
+}
 nav a, footer a {
   font-family: "Uni 05";
   -webkit-font-smoothing: antialiased;
@@ -490,7 +496,7 @@ nav a, footer a {
 nav a::after, footer a::after {
   content: "";
   position: absolute;
-  top: 0.1em;
+  top: 0.125em;
   left: 0;
   width: 100%;
   height: 100%;
@@ -500,6 +506,13 @@ nav a::after, footer a::after {
   background-position: 0 100%;
   background-size: auto 0.25em;
   background-repeat: repeat-x;
+}
+nav a:hover, nav a:active, nav a:focus, footer a:hover, footer a:active, footer a:focus {
+  outline: 0;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #e722cd;
+  text-shadow: -2px 2px #53f4ff;
 }
 nav a:hover::after, nav a:active::after, nav a:focus::after, footer a:hover::after, footer a:active::after, footer a:focus::after {
   background-image: url("../assets/images/squiggle.svg");
@@ -536,6 +549,61 @@ main a:active, main a:focus, main a:hover {
 }
 main a:active span, main a:focus span, main a:hover span {
   background-position: -100% 0;
+}
+
+/* 
+* Link highlighting doesn't work as expected in safari so provide a safari-specific fallback
+* https://browserstrangeness.github.io/css_hacks.html#safari
+*/
+_::-webkit-full-page-media, _:future, :root main a span {
+  -webkit-box-decoration-break: clone;
+}
+
+/* Safari! Having issues getting the in-file CSS animation to work; it sticks on the first frame
+* Safari users instead get a hot pink link because I want moving squiggly lines
+* but don't want to add another span and will give up an arrow to make this happen
+*/
+/* Prep to shift the squiggly psueudoelement on hover */
+@-webkit-keyframes squiggleWave {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes squiggleWave {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+_::-webkit-full-page-media, _:future, :root nav a,
+_::-webkit-full-page-media, _:future, :root footer a {
+  overflow: hidden;
+  padding: 0 0 0.2em 2px;
+}
+
+_::-webkit-full-page-media, _:future, :root nav a::after,
+_::-webkit-full-page-media, _:future, :root footer a::after {
+  width: 200%;
+  top: auto;
+  bottom: 0;
+}
+
+/* Animate the squiggle on hover */
+_::-webkit-full-page-media,
+_:future,
+:root nav a:active::after,
+:root nav a:focus::after,
+:root nav a:hover::after,
+:root footer a:active::after,
+:root footer a:focus::after,
+:root footer a:hover::after {
+  -webkit-animation: squiggleWave 6000ms linear infinite;
+          animation: squiggleWave 6000ms linear infinite;
 }
 
 p {
@@ -658,6 +726,7 @@ a.name-shadow {
 a.name-shadow:active, a.name-shadow:focus, a.name-shadow:hover {
   font-weight: 500;
   text-shadow: none;
+  outline: 0;
 }
 a.name-shadow:active .word, a.name-shadow:focus .word, a.name-shadow:hover .word {
   -webkit-animation-name: YOLOColors;
